@@ -19,9 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('6491882747565dd255df2438')
+  User.findById('6492a65c4a8ffc0ee4f8f8b2')
     .then(user => {
-      req.user = user;
+      // console.log("user" , user);
+      req.user = new User(user.name , user.email , user.cart , user._id);
+      // console.log("user" , req.user.cart);
       next();
     })
     .catch(err => console.log(err));
@@ -34,4 +36,7 @@ app.use(errorController.get404);
 
 mongoConnect(() => {
   app.listen(3000);
+  // User.createUser('John', "john@example.com")
+  // .then(user => {console.log(user);})
+  // .catch(err => console.log(err));
 });
