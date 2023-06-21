@@ -50,6 +50,14 @@ class User {
          })
     })
   }
+  deleteCartProduct(productId,userId) {
+    // console.log(productId);
+    const updateCartItems = this.cart.items.filter(p=>{
+      return p.productId.toString() !== productId.toString();
+    })
+    const db = getDb();
+    return db.collection('users').updateOne({_id : this._id}, {$set : {cart : {items : updateCartItems}}})
+  }
 
   static findById(userId) {
     const db = getDb();
